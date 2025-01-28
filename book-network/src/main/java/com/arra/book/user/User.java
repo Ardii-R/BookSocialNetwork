@@ -35,7 +35,7 @@ public class User implements UserDetails, Principal {
 
     @Id
     @GeneratedValue
-    private Integer uderId;
+    private Integer userId;
     private String firstname;
     private String lastname;
     @Column(unique = true)
@@ -53,7 +53,7 @@ public class User implements UserDetails, Principal {
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Role> roles;
 
-    private String getFullName(){
+    public String getFullName(){
         return this.firstname + " " + this.lastname;
     }
 
