@@ -19,23 +19,25 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
-
 public class JwtService {
 
-    @Value("${application.security.jwt.expiration}")
-    private Long jwtExpiration;                     // expiration in milliseconds
+    @Value("${application.security.jwt.expiration}")        // get value from configuration file
+    private Long jwtExpiration;                             // expiration in milliseconds
     @Value("${application.security.jwt.secret-key}")
     private String secretKey;
+
 
     public String generateToken(UserDetails userDetails) {
         return generateToken(new HashMap<>(), userDetails);
     }
 
-    private String generateToken(Map<String, Objects> claims, UserDetails userDetails){
+    // generate token with claims (additional information to be stored in the token)
+    public String generateToken(Map<String, Object> claims, UserDetails userDetails){
         return buildToken(claims, userDetails, jwtExpiration);
     }
 
-    private String buildToken(Map<String, Objects> claims, UserDetails userDetails, Long jwtExpiration) {
+    // functionality to build the token
+    private String buildToken(Map<String, Object> claims, UserDetails userDetails, Long jwtExpiration) {
         // extract authorities (roles) from user
         var authorities = userDetails.getAuthorities()
                 .stream()
@@ -47,7 +49,7 @@ public class JwtService {
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + jwtExpiration))
-                .claim("authorities", authorities)
+                .claim("authorities", authorities)      // roles from the user as claims
                 .signWith(getSignInKey())
                 .compact();
     }
