@@ -1,5 +1,6 @@
 package com.arra.book.authentication;
 
+
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -11,16 +12,10 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-public class RegistrationRequest {
+public class AuthenticationRequest {
 
-  // First name, last name, email and password are the data required to register a user
+    //  email and password are the data required to authenticate a users request
 
-    @NotEmpty(message = "Firstname is required")
-    @NotNull(message = "Firstname is required")
-    private String firstname;
-    @NotEmpty(message = "Lastname is required")
-    @NotNull(message = "Lastname is required")
-    private String lastname;
     @Email(message = "Email is not well formatted")
     @NotEmpty(message = "Email is required")
     @NotNull(message = "Email is required")
@@ -30,5 +25,3 @@ public class RegistrationRequest {
     @Size(min = 8, message = "Password must be at least 8 characters long")
     private String password;
 }
-
-
