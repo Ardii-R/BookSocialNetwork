@@ -11,7 +11,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 
 
 @SpringBootApplication
-@EnableJpaAuditing
+@EnableJpaAuditing(auditorAwareRef = "auditorAware")			// need to tell spring the auditorAware reference to use -  auditorAwareRef = "auditorAware" is the bean name inside the configuration class
 @EnableAsync 		// email notification
 public class BookNetworkApiApplication {
 
