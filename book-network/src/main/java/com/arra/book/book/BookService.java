@@ -2,6 +2,7 @@ package com.arra.book.book;
 
 import com.arra.book.common.PageResponse;
 import com.arra.book.exception.OperationNotPermittedException;
+import com.arra.book.file.FileStorageService;
 import com.arra.book.history.BookTransactionHistory;
 import com.arra.book.history.BookTransactionHistoryRepository;
 import com.arra.book.user.User;
@@ -14,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Objects;
@@ -26,6 +28,7 @@ public class BookService  {
     private final BookMapper bookMapper;
     private final BookRepository bookRepository;
     private final BookTransactionHistoryRepository bookTransactionHistoryRepository;
+    private final FileStorageService fileStorageService;
 
     public Integer save(BookRequest request, Authentication connectedUser) {
         //User user = ((User) connectedUser.getPrincipal());
@@ -205,5 +208,17 @@ public class BookService  {
         // set the approval status for the book and return the transaction history id
         bookTransactionHistory.setReturnApproved(true);
         return bookTransactionHistoryRepository.save(bookTransactionHistory).getId();
+    }
+
+    public void uploadBookCoverPicture(MultipartFile file, Integer bookId, Authentication connectedUser) {
+        // get currently logged in users
+        User user = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+        // get the book
+        Book book = bookRepository.findById(bookId).orElseThrow(() -> new EntityNotFoundException("Book not found with the id " + bookId));
+        // call file service to save file based on user id (folder for id's)
+        var bookCover = fileStorageService.saveFile(file, user.getUserId());
+        // set the filepath of the book cover and save it
+        book.setBookCover(bookCover);
+        bookRepository.save(book);
     }
 }

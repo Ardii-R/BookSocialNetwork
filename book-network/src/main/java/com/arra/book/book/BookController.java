@@ -1,12 +1,14 @@
 package com.arra.book.book;
 
 import com.arra.book.common.PageResponse;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("books")
@@ -98,5 +100,15 @@ public class BookController {
 
     //TODO: implement method for uploading book cover
     // uploadBookCoverPicture
+
+    @PostMapping(value = "/cover/{bookId}", consumes = "multipart/form-data")
+    public ResponseEntity<?> uploadBookCoverPicture(@PathVariable("book-id") Integer bookId,
+                                                    @Parameter()
+                                                    @RequestPart("file") MultipartFile file,
+                                                    Authentication connectedUser) {
+
+        bookService.uploadBookCoverPicture(file, bookId, connectedUser);
+        return ResponseEntity.accepted().build();
+    }
 
 }
