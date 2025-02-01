@@ -41,4 +41,15 @@ public class Book extends BaseEntity {
     // id and auditing attributes inside BaseEntity
 
 
+    @Transient
+    public double getRate() {
+        if(feedbacks == null || feedbacks.isEmpty()){
+            return 0.0;
+        }
+        // calc the avg rate
+        double rate = this.feedbacks.stream().mapToDouble(Feedback::getNote).average().orElse(0.0);
+        // round to 1 decimal place
+        return Math.round(rate * 10.0) / 10.0;
+    }
+
 }
