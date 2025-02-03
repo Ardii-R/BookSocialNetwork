@@ -18,11 +18,6 @@ public class FeedbackController {
 
 
 
-    /*
-     * TODO: implement mappings:
-     * findAllFeedbacksByBook
-     */
-
     @PostMapping()
     public ResponseEntity<Integer> saveFeedback(@Valid @RequestBody FeedbackRequest request, Authentication connectedUser){
         return ResponseEntity.ok(feedbackService.save(request, connectedUser));
@@ -36,5 +31,8 @@ public class FeedbackController {
             Authentication connectedUser){
         return ResponseEntity.ok((feedbackService.findAllFeedbacksByBook(page, size, bookId, connectedUser)));
     }
+
+
+
 
 }
