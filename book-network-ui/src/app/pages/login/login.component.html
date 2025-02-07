@@ -1,0 +1,30 @@
+
+<div class="container-fluid card login-container">
+<h3>Login</h3>
+<!-- displaying the errors -->
+<div class="alert alert-danger" role="alert" *ngIf="errorMsg.length">
+    <p *ngFor="let error of errorMsg"> {{error}}</p>
+</div>
+
+<!-- email input-->
+<div class="mb-3">
+    <label for="login" class="form-label">Email address</label>
+    <input type="email" class="form-control" id="login" placeholder="Email" [(ngModel)]="authRequest.email">
+</div>
+
+<!-- password input-->
+<div class="mb-3">
+    <label for="password" class="form-label">password</label>
+    <input type="password" class="form-control" id="password" placeholder="********" [(ngModel)]="authRequest.password">
+</div>
+
+<!-- sign & register in button-->
+<div class="d-flex justify-content-between mb-3">
+    <button (click)="login()" type="button" class="btn btn-success">Sign in</button>
+    <div>
+      Not a member?
+      <button (click)="register()" type="button" class="btn btn-link">
+        Register
+      </button>
+    </div>
+</div>
