@@ -34,7 +34,7 @@ export class RegisterComponent {
     }).subscribe({
       next: (res) => {
         // if the registration is successful then redirect user to activate his account
-        this.router.navigate(['acctivate-account']);
+        this.router.navigate(['activate-account']);
       },
       error: (err) => {
         this.errorMsg = err.error.validationErrors;
