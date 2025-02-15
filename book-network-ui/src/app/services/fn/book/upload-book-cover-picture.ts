@@ -10,15 +10,17 @@ import { RequestBuilder } from '../../request-builder';
 
 
 export interface UploadBookCoverPicture$Params {
+  bookId: number;
       body?: {
 'file': Blob;
 'connectedUser'?: 'RSA' | 'DSS' | 'aNULL' | 'DH' | 'ECDH' | 'KRB5' | 'ECDSA' | 'PSK' | 'GOST94' | 'GOST01' | 'FZA' | 'SRP' | 'ANY';
 }
 }
 
-export function uploadBookCoverPicture(http: HttpClient, rootUrl: string, params?: UploadBookCoverPicture$Params, context?: HttpContext): Observable<StrictHttpResponse<{
+export function uploadBookCoverPicture(http: HttpClient, rootUrl: string, params: UploadBookCoverPicture$Params, context?: HttpContext): Observable<StrictHttpResponse<{
 }>> {
-  const rb = new RequestBuilder(rootUrl, uploadBookCoverPicture.PATH, 'post');
+  const url = `/books/cover/${encodeURIComponent(params.bookId)}`; // bookId richtig in URL setzen!
+  const rb = new RequestBuilder(rootUrl, url, 'post');
   if (params) {
     rb.body(params.body, 'multipart/form-data');
   }
