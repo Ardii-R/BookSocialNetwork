@@ -19,7 +19,7 @@ export interface UploadBookCoverPicture$Params {
 
 export function uploadBookCoverPicture(http: HttpClient, rootUrl: string, params: UploadBookCoverPicture$Params, context?: HttpContext): Observable<StrictHttpResponse<{
 }>> {
-  const url = `/books/cover/${encodeURIComponent(params.bookId)}`; // bookId richtig in URL setzen!
+  const url = `/books/cover/${encodeURIComponent(params.bookId)}`; 
   const rb = new RequestBuilder(rootUrl, url, 'post');
   if (params) {
     rb.body(params.body, 'multipart/form-data');
