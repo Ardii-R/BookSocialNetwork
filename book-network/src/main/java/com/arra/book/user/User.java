@@ -1,7 +1,8 @@
 package com.arra.book.user;
 
+import com.arra.book.book.Book;
+import com.arra.book.history.BookTransactionHistory;
 import com.arra.book.role.Role;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -14,7 +15,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -30,9 +30,6 @@ public class User implements UserDetails, Principal {
  * The User entity implements UserDetails interface to provide  necessary user information for the security framework.
  * It includes details such as username, password, and granted authorities, along with account status information.
  */
-
-
-
     @Id
     @GeneratedValue
     private Integer userId;
@@ -44,14 +41,23 @@ public class User implements UserDetails, Principal {
     private String password;
     private boolean accountLocked;
     private boolean enabled;
+
     @CreatedDate
     @Column(nullable = false, updatable = false)
     private LocalDate crateDate;
+
     @LastModifiedDate
     @Column(insertable = false)
     private LocalDate lastModifiedDate;
+
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Role> roles;
+
+    @OneToMany(mappedBy = "owner")
+    private List<Book> books;
+
+    @OneToMany(mappedBy = "user")
+    private List<BookTransactionHistory> histories;
 
     public String getFullName(){
         return this.firstname + " " + this.lastname;
