@@ -213,8 +213,8 @@ public class BookService {
             throw new OperationNotPermittedException("The book cannot be returned!");
         }
         // check if user is not the same as the owner
-        if (Objects.equals(book.getOwner().getUserId(), user.getUserId())) {
-            throw new OperationNotPermittedException("You cannot return your own book!");
+        if (!Objects.equals(book.getOwner().getUserId(), user.getUserId())) {
+            throw new OperationNotPermittedException("You cannot return book that you dont own!");
         }
 
         // check if book is already borrowed by the user - only then return is possible

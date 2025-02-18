@@ -15,7 +15,7 @@ export class MyBooksComponent implements OnInit {
   page = 0;
   size = 7; // paging size 
   pages: any = [];
-  isLastPage: boolean = false;
+
 
 
   constructor(private bookService: BookService, private router: Router){}
@@ -69,6 +69,9 @@ export class MyBooksComponent implements OnInit {
     this.findALlBooks();
   }
 
+  get isLastPage() {
+    return this.page === this.bookResponse.totalPages as number - 1;
+  }
 
   // ***** actions ***** 
 

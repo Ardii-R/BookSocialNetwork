@@ -3,12 +3,15 @@ import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { ActivateAccountComponent } from './pages/activate-account/activate-account.component';
+import { authGuard } from './services/services/guard/auth.guard';
 
 const routes: Routes = [
+  // open endpoint
   {path: "login", component: LoginComponent},
   {path: "register", component: RegisterComponent},
   {path: "activate-account", component: ActivateAccountComponent},
-  {path: "books", loadChildren: () => import('./modules/book/book.module').then(module => module.BookModule)}
+  // guard needed 
+  {path: "books", loadChildren: () => import('./modules/book/book.module').then(module => module.BookModule), canActivate: [authGuard]}
 ];
 
 @NgModule({
